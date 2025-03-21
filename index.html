@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Cosy Code</title>
+    <title>Cozy Code</title>
     <link rel="manifest" href="manifest.json"> <!-- Link to manifest file -->
     <style>
         body {
@@ -142,34 +142,6 @@
             font-size: 14px;
             margin-top: 10px;
         }
-
-        /* Updated styles for sample code */
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 30px;
-        }
-
-        .container .output-box {
-            padding: 30px;
-            background-color: #4A3F35;
-            color: #E1B07E;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 600px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .output-box h2 {
-            font-size: 24px;
-            color: #A58C6A;
-            margin-bottom: 15px;
-        }
-
-        .output-box p {
-            font-size: 18px;
-        }
     </style>
 </head>
 <body>
@@ -184,9 +156,9 @@
         </div>
     </div>
     <div class="buttons">
-        <button id="clearBtn">Clear Code</button>
-        <button id="sampleCodeBtn">Sample Code</button>
+        <button id="testCodeBtn">Sample Code</button>
         <button id="copyBtn">Copy Code</button>
+        <button id="clearBtn">Clear Code</button>
     </div>
 
     <!-- Modal for file name input -->
@@ -202,7 +174,7 @@
     <script>
         const codeArea = document.getElementById('codeArea');
         const preview = document.getElementById('preview');
-        const sampleCodeBtn = document.getElementById('sampleCodeBtn');
+        const testCodeBtn = document.getElementById('testCodeBtn');
         const copyBtn = document.getElementById('copyBtn');
         const clearBtn = document.getElementById('clearBtn');
         const modal = document.getElementById('modal');
@@ -210,8 +182,82 @@
         const saveFileBtn = document.getElementById('saveFileBtn');
         const errorMessage = document.getElementById('errorMessage');
 
+        // Sample code for testing
+        const sampleCode = `
+             <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sample Code</title>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #2B2A27;
+                color: #E1B07E;
+                text-align: center;
+            }
+            h1 {
+                margin-top: 50px;
+                font-size: 40px;
+                color: #E1B07E;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            }
+            p {
+                font-size: 18px;
+                color: #D0B07A;
+                margin: 20px;
+                padding: 20px;
+                background-color: #3E3A34;
+                border-radius: 8px;
+                width: 80%;
+                margin-left: auto;
+                margin-right: auto;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 30px;
+            }
+            .container .output-box {
+                padding: 30px;
+                background-color: #4A3F35;
+                color: #E1B07E;
+                border-radius: 10px;
+                width: 80%;
+                max-width: 600px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+            .output-box h2 {
+                font-size: 24px;
+                color: #A58C6A;
+                margin-bottom: 15px;
+            }
+            .output-box p {
+                font-size: 18px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Welcome to Cosy Code!</h1>
+        <p>Here’s an example of how your code can be previewed in the output window. Try editing the code and watch the result live!</p>
+        
+        <div class="container">
+            <div class="output-box">
+                <h2>Output of Your Code</h2>
+                <p>This area will display the result of your code when you write HTML & CSS in the editor. Feel free to experiment!</p>
+            </div>
+        </div>
+    </body>
+    </html>
+        `;
+
         // Load saved code from localStorage
-        codeArea.value = localStorage.getItem('cosyCode') || '';
+        codeArea.value = localStorage.getItem('cosyCode') || sampleCode;
         updatePreview();
 
         codeArea.addEventListener('input', () => {
@@ -240,81 +286,7 @@
             preview.srcdoc = htmlAndCss;
         }
 
-        // Sample code for testing (styled like the app)
-        const sampleCode = `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Sample Code</title>
-                <style>
-                    body {
-                        font-family: 'Arial', sans-serif;
-                        margin: 0;
-                        padding: 0;
-                        background-color: #2B2A27;
-                        color: #E1B07E;
-                        text-align: center;
-                    }
-                    h1 {
-                        margin-top: 50px;
-                        font-size: 40px;
-                        color: #E1B07E;
-                        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-                    }
-                    p {
-                        font-size: 18px;
-                        color: #D0B07A;
-                        margin: 20px;
-                        padding: 20px;
-                        background-color: #3E3A34;
-                        border-radius: 8px;
-                        width: 80%;
-                        margin-left: auto;
-                        margin-right: auto;
-                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                    }
-                    .container {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        margin-top: 30px;
-                    }
-                    .container .output-box {
-                        padding: 30px;
-                        background-color: #4A3F35;
-                        color: #E1B07E;
-                        border-radius: 10px;
-                        width: 80%;
-                        max-width: 600px;
-                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                    }
-                    .output-box h2 {
-                        font-size: 24px;
-                        color: #A58C6A;
-                        margin-bottom: 15px;
-                    }
-                    .output-box p {
-                        font-size: 18px;
-                    }
-                </style>
-            </head>
-            <body>
-                <h1>Welcome to Cozy Code!</h1>
-                <p>Here’s an example of how your code can be previewed in the output window. Try editing the code and watch the result live!</p>
-                
-                <div class="container">
-                    <div class="output-box">
-                        <h2>Output of Your Code</h2>
-                        <p>This area will display the result of your code when you write HTML & CSS in the editor. Feel free to experiment!</p>
-                    </div>
-                </div>
-            </body>
-            </html>
-        `;
-
-        sampleCodeBtn.addEventListener('click', () => {
+        testCodeBtn.addEventListener('click', () => {
             codeArea.value = sampleCode; // Set the textarea with the sample code
             localStorage.setItem('cosyCode', sampleCode); // Save the sample code
             updatePreview();
