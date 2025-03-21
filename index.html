@@ -156,9 +156,9 @@
         </div>
     </div>
     <div class="buttons">
-        <button id="clearBtn">Clear Code</button>
-        <button id="downloadBtn">Download Code</button>
+        <button id="testCodeBtn">Sample Code</button>
         <button id="copyBtn">Copy Code</button>
+        <button id="clearBtn">Clear Code</button>
     </div>
 
     <!-- Modal for file name input -->
@@ -174,7 +174,7 @@
     <script>
         const codeArea = document.getElementById('codeArea');
         const preview = document.getElementById('preview');
-        const downloadBtn = document.getElementById('downloadBtn');
+        const testCodeBtn = document.getElementById('testCodeBtn');
         const copyBtn = document.getElementById('copyBtn');
         const clearBtn = document.getElementById('clearBtn');
         const modal = document.getElementById('modal');
@@ -182,8 +182,16 @@
         const saveFileBtn = document.getElementById('saveFileBtn');
         const errorMessage = document.getElementById('errorMessage');
 
+        // Sample code for testing
+        const sampleCode = `
+            <div style="text-align: center; padding: 50px; background-color: #333;">
+                <h1 style="color: white;">Welcome to Cosy Code!</h1>
+                <p style="color: #E1B07E;">This is a sample HTML and CSS example. Modify and test it!</p>
+            </div>
+        `;
+
         // Load saved code from localStorage
-        codeArea.value = localStorage.getItem('cosyCode') || '';
+        codeArea.value = localStorage.getItem('cosyCode') || sampleCode;
         updatePreview();
 
         codeArea.addEventListener('input', () => {
@@ -212,25 +220,10 @@
             preview.srcdoc = htmlAndCss;
         }
 
-        downloadBtn.addEventListener('click', () => {
-            modal.style.display = 'flex'; // Show modal
-        });
-
-        saveFileBtn.addEventListener('click', () => {
-            const fileName = fileNameInput.value.trim();
-            if (!fileName) {
-                errorMessage.textContent = 'Please enter a file name'; // Show error message
-                return;
-            }
-            const code = codeArea.value;
-            const blob = new Blob([code], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            a.click();
-            URL.revokeObjectURL(url);
-            modal.style.display = 'none'; // Hide modal after saving
+        testCodeBtn.addEventListener('click', () => {
+            codeArea.value = sampleCode; // Set the textarea with the sample code
+            localStorage.setItem('cosyCode', sampleCode); // Save the sample code
+            updatePreview();
         });
 
         copyBtn.addEventListener('click', () => {
