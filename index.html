@@ -1,309 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Cozy Code</title>
-    <link rel="manifest" href="manifest.json"> <!-- Link to manifest file -->
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            background-color: #2B2A27;
-            color: #E1B07E;
-            overflow: hidden;
-        }
-        .container {
-            display: flex;
-            flex-direction: row;
-            height: 100%;
-            overflow: hidden;
-        }
-        .editor, .preview {
-            width: 50%;
-            padding: 10px;
-            box-sizing: border-box;
-            background-color: #3E3A34;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        textarea {
-            width: 100%;
-            flex-grow: 1;
-            padding: 10px;
-            box-sizing: border-box;
-            border: none;
-            background-color: #3E3A34;
-            font-family: monospace;
-            font-size: 14px;
-            color: #E1B07E;
-            line-height: 1.5;
-            resize: none;
-            overflow: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        .preview iframe {
-            width: 100%;
-            flex-grow: 1;
-            border: none;
-        }
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 10px;
-            background-color: #4A3F35;
-        }
-        button {
-            background-color: #6A5D4D;
-            color: #E1B07E;
-            padding: 10px 20px;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #8A7D6C;
-        }
-        .label {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            .editor, .preview {
-                width: 100%;
-                height: 50%;
-            }
-            textarea {
-                height: 100%;
-            }
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Cozy Code</title>
+  <link rel="manifest" href="manifest.json" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Fira Code', monospace;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
+      color: #E1B07E;
+      overflow: hidden;
+    }
 
-        /* Modal styles */
-        #modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-        }
+    .container {
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+      overflow: hidden;
+    }
 
-        .modal-content {
-            background-color: #3E3A34;
-            padding: 20px;
-            border-radius: 10px;
-            width: 300px;
-            text-align: center;
-            box-sizing: border-box; /* Ensures padding doesn't affect width */
-        }
+    .editor, .preview {
+      flex: 1;
+      padding: 10px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
 
-        .modal-content input {
-            width: 100%; /* Ensures input takes up the full width of the modal */
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #6A5D4D;
-            background-color: #4A3F35;
-            color: #E1B07E;
-            margin-bottom: 15px;
-            box-sizing: border-box; /* Ensures padding doesn't affect width */
-        }
+    textarea {
+      width: 100%;
+      flex-grow: 1;
+      padding: 10px;
+      box-sizing: border-box;
+      border: none;
+      border-radius: 6px;
+      background-color: #252525;
+      font-size: 14px;
+      color: #E1B07E;
+      line-height: 1.5;
+      resize: none;
+      overflow: auto;
+      box-shadow: inset 0 0 10px #000;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
 
-        .modal-content button {
-            background-color: #6A5D4D;
-            color: #E1B07E;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%; /* Ensures button spans the full width */
-        }
+    iframe {
+      width: 100%;
+      flex-grow: 1;
+      border: none;
+      border-radius: 6px;
+      background-color: #1f1f1f;
+      box-shadow: 0 0 10px #000;
+    }
 
-        .modal-content button:hover {
-            background-color: #8A7D6C;
-        }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+      background-color: #2b2a27;
+    }
 
-        .error-message {
-            color: red;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-    </style>
+    button {
+      background-color: #6A5D4D;
+      color: #E1B07E;
+      padding: 10px 16px;
+      border: none;
+      font-size: 14px;
+      font-family: 'Fira Code', monospace;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #8A7D6C;
+    }
+
+    .label {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .editor, .preview {
+        width: 100%;
+        height: 50%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="editor">
-            <small class="label">Type your HTML & CSS:</small>
-            <textarea id="codeArea" placeholder="Write HTML & CSS..."></textarea>
-        </div>
-        <div class="preview">
-            <small class="label">Live Preview:</small>
-            <iframe id="preview" sandbox="allow-same-origin allow-forms allow-popups"></iframe>
-        </div>
+  <div class="container">
+    <div class="editor">
+      <div class="label">Type your HTML & CSS:</div>
+      <textarea id="codeArea" placeholder="Write HTML & CSS..."></textarea>
     </div>
-    <div class="buttons">
-        <button id="testCodeBtn">Sample Code</button>
-        <button id="copyBtn">Copy Code</button>
-        <button id="clearBtn">Clear Code</button>
+    <div class="preview">
+      <div class="label">Live Preview:</div>
+      <iframe id="preview" sandbox="allow-same-origin allow-forms allow-popups"></iframe>
     </div>
+  </div>
 
-    <!-- Modal for file name input -->
-    <div id="modal">
-        <div class="modal-content">
-            <small class="label">Enter file name:</small>
-            <input type="text" id="fileNameInput" placeholder="Enter file name...">
-            <button id="saveFileBtn">Save</button>
-            <div id="errorMessage" class="error-message"></div> <!-- Error message -->
-        </div>
-    </div>
+  <div class="buttons">
+    <button id="testCodeBtn">Sample Code</button>
+    <button id="copyBtn">Copy</button>
+    <button id="clearBtn">Clear</button>
+    <button id="downloadBtn">Download</button>
+  </div>
 
-    <script>
-        const codeArea = document.getElementById('codeArea');
-        const preview = document.getElementById('preview');
-        const testCodeBtn = document.getElementById('testCodeBtn');
-        const copyBtn = document.getElementById('copyBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const modal = document.getElementById('modal');
-        const fileNameInput = document.getElementById('fileNameInput');
-        const saveFileBtn = document.getElementById('saveFileBtn');
-        const errorMessage = document.getElementById('errorMessage');
+  <script>
+    const codeArea = document.getElementById('codeArea');
+    const preview = document.getElementById('preview');
+    const testCodeBtn = document.getElementById('testCodeBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
 
-        // Sample code for testing
-        const sampleCode = `<!DOCTYPE html>
+    const sampleCode = `<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Code</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #2B2A27;
-            color: #E1B07E;
-            text-align: center;
-        }
-        h1 {
-            margin-top: 50px;
-            font-size: 40px;
-            color: #E1B07E;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        p {
-            font-size: 18px;
-            color: #D0B07A;
-            margin: 20px;
-            padding: 20px;
-            background-color: #3E3A34;
-            border-radius: 8px;
-            width: 80%;
-            margin-left: auto;
-            margin-right: auto;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 30px;
-        }
-        .container .output-box {
-            padding: 30px;
-            background-color: #4A3F35;
-            color: #E1B07E;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 600px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .output-box h2 {
-            font-size: 24px;
-            color: #A58C6A;
-            margin-bottom: 15px;
-        }
-        .output-box p {
-            font-size: 18px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome</title>
+  <style>
+    body {
+      background-color: #2B2A27;
+      color: #E1B07E;
+      font-family: 'Fira Code', monospace;
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      font-size: 36px;
+    }
+    p {
+      font-size: 18px;
+      background-color: #3E3A34;
+      padding: 20px;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Welcome to Cozy Code!</h1>
-    <p>Here’s an example of how your code can be previewed in the output window. Try editing the code and watch the result live!</p>
-    
-    <div class="container">
-        <div class="output-box">
-            <h2>Output of Your Code</h2>
-            <p>This area will display the result of your code when you write HTML & CSS in the editor. Feel free to experiment!</p>
-        </div>
-    </div>
+  <h1>Hello from Cozy Code</h1>
+  <p>Edit the HTML/CSS on the left, and see the result here!</p>
 </body>
 </html>`;
 
-        // Check if saved code exists or set to sample code initially
-        if (!localStorage.getItem('cosyCode')) {
-            localStorage.setItem('cosyCode', sampleCode);
-        }
+    // Load saved or default code
+    const savedCode = localStorage.getItem('cozyCode');
+    codeArea.value = savedCode || sampleCode;
+    updatePreview();
 
-        codeArea.value = localStorage.getItem('cosyCode');
-        updatePreview();
+    let debounceTimer;
+    codeArea.addEventListener('input', () => {
+      codeArea.style.height = 'auto';
+      codeArea.style.height = codeArea.scrollHeight + 'px';
+      localStorage.setItem('cozyCode', codeArea.value);
 
-        codeArea.addEventListener('input', () => {
-            codeArea.style.height = 'auto';
-            codeArea.style.height = codeArea.scrollHeight + 'px';
-            localStorage.setItem('cosyCode', codeArea.value);
-            updatePreview();
-        });
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(updatePreview, 400);
+    });
 
-        function updatePreview() {
-            const code = codeArea.value;
-            const htmlAndCss = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preview</title>
-    <style>body { background-color: #fff; color: #333; }</style>
-</head>
-<body>
-    ${code}
-</body>
-</html>`;
-            preview.srcdoc = htmlAndCss;
-        }
+    function updatePreview() {
+      const code = codeArea.value;
+      preview.srcdoc = code;
+    }
 
-        testCodeBtn.addEventListener('click', () => {
-            codeArea.value = sampleCode; // Set the textarea with the sample code
-            localStorage.setItem('cosyCode', sampleCode); // Save the sample code
-            updatePreview();
-        });
+    testCodeBtn.addEventListener('click', () => {
+      codeArea.value = sampleCode;
+      localStorage.setItem('cozyCode', sampleCode);
+      updatePreview();
+    });
 
-        copyBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(codeArea.value).then(() => {
-                copyBtn.textContent = 'Code Copied!';
-                setTimeout(() => copyBtn.textContent = 'Copy Code', 2000);
-            });
-        });
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(codeArea.value).then(() => {
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+      });
+    });
 
-        clearBtn.addEventListener('click', () => {
-            codeArea.value = ''; // Clear textarea
-            localStorage.removeItem('cosyCode'); // Remove saved code from localStorage
-            updatePreview();
-        });
-    </script>
+    clearBtn.addEventListener('click', () => {
+      codeArea.value = '';
+      localStorage.removeItem('cozyCode');
+      updatePreview();
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      const blob = new Blob([codeArea.value], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "cozycode.html";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
 </body>
 </html>
