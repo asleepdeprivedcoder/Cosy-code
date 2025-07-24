@@ -7,15 +7,14 @@
   <link rel="manifest" href="manifest.json" />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: 'Fira Code', monospace;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
+      height: 100%;
+      overflow: hidden;
       background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
       color: #E1B07E;
-      overflow: hidden;
     }
 
     .container {
@@ -23,22 +22,21 @@
       flex-direction: row;
       height: 100%;
       overflow: hidden;
-      position: relative;
     }
 
     .editor, .preview {
       flex: 1;
       padding: 10px;
-      box-sizing: border-box;
       display: flex;
       flex-direction: column;
       gap: 5px;
       position: relative;
+      overflow: hidden;
     }
 
     textarea {
       width: 100%;
-      flex-grow: 1;
+      flex: 1;
       padding: 10px;
       border: none;
       border-radius: 6px;
@@ -46,13 +44,18 @@
       font-size: 14px;
       color: #E1B07E;
       resize: none;
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
       box-shadow: inset 0 0 10px #000;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      line-height: 1.4;
+      min-height: 0;
     }
 
     iframe {
       width: 100%;
-      flex-grow: 1;
+      flex: 1;
       border: none;
       border-radius: 6px;
       background-color: #1f1f1f;
@@ -92,13 +95,13 @@
 
     .fullscreen-btn {
       position: absolute;
-      top: 12px;
+      bottom: 12px;
       right: 12px;
       background-color: rgba(255, 255, 255, 0.05);
       padding: 6px 10px;
       font-size: 18px;
       color: #E1B07E;
-      border-radius: 6px;
+      border-radius: 50%;
       border: 1px solid rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(6px);
       cursor: pointer;
@@ -108,7 +111,7 @@
 
     .fullscreen-btn:hover {
       background-color: rgba(255, 255, 255, 0.1);
-      transform: scale(1.05);
+      transform: scale(1.1);
     }
 
     .fullscreen-mode {
@@ -125,12 +128,19 @@
       .container {
         flex-direction: column;
       }
+
       .editor, .preview {
         height: 50%;
       }
+
+      textarea {
+        font-size: 13px;
+        padding-bottom: 30px;
+      }
+
       .fullscreen-btn {
-        top: 8px;
-        right: 8px;
+        bottom: 10px;
+        right: 10px;
       }
     }
   </style>
